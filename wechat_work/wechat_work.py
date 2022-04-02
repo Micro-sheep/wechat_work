@@ -34,7 +34,8 @@ class WechatWork:
         self.corpsecret = corpsecret
         self.access_token = self.get_access_token()
 
-    def upload_file(self, filepath: str,
+    def upload_file(self,
+                    filepath: str,
                     filename: str) -> str:
         """
         上传文件
@@ -88,7 +89,7 @@ class WechatWork:
 
         users : List[str]
             接受消息的的用户账号列表
-            例如 ``['ZhanShan','LiSi']``
+            例如 ``['ZhangSan','LiSi']``
         content : str, optional
             消息内容, 默认为 ``None``
         media_id : str, optional
@@ -99,10 +100,10 @@ class WechatWork:
         bool
             是否发送成功
         """
-        useridstr = '|'.join(users)
+        userid_str = '|'.join(users)
         access_token = self.access_token
         data = {
-            'touser': useridstr,
+            'touser': userid_str,
             'msgtype': msg_type,
             'agentid': self.appid,
             msg_type: {
@@ -189,7 +190,9 @@ class WechatWork:
                          users=users,
                          media_id=media_id)
 
-    def send_text(self, content: str, users: List[str]) -> bool:
+    def send_text(self,
+                  content: str,
+                  users: List[str]) -> bool:
         """
         发送文本消息给多个用户
 
@@ -204,7 +207,9 @@ class WechatWork:
                          users=users,
                          content=content)
 
-    def send_markdown(self, content: str, users: List[str]) -> bool:
+    def send_markdown(self,
+                      content: str,
+                      users: List[str]) -> bool:
         """
         发送 Markdown 消息给多个用户
 
