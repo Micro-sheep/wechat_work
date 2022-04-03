@@ -7,9 +7,10 @@
 开始之前，请先跟随一下步骤创建一个企业微信应用
 
 - [注册/登录企业微信管理后台](https://work.weixin.qq.com/)
-- [创建/管理应用](https://work.weixin.qq.com/wework_admin/frame#apps)
+- [创建/查看/管理应用](https://work.weixin.qq.com/wework_admin/frame#apps)
 - [查看企业ID](https://work.weixin.qq.com/wework_admin/frame#profile)
 - [查看企业微信成员信息](https://work.weixin.qq.com/wework_admin/frame#contacts)
+- [添加插件以支持推送到个人微信](https://work.weixin.qq.com/wework_admin/frame#profile/wxPlugin)
 
 ## Installation
 
