@@ -14,8 +14,8 @@ class WechatWork:
     企业微信消息推送
     """
 
-    access_token = None
-    access_token_expires_time = None
+    access_token: str = None
+    access_token_expires_time: int = None
 
     def __init__(self,
                  corpid: str,
@@ -145,7 +145,7 @@ class WechatWork:
             当无法获取 token 时
 
         """
-        if self.access_token_expires_time and datetime.datetime.now().__lt__(self.access_token_expires_time):
+        if self.access_token_expires_time and datetime.datetime.now() < self.access_token_expires_time:
             return self.access_token
 
         params = {
@@ -160,7 +160,8 @@ class WechatWork:
         if access_token is None:
             raise Exception('获取 token 失败 请确保相关信息填写的正确性')
         self.access_token = access_token
-        self.access_token_expires_time = datetime.datetime.now() + datetime.timedelta(seconds=js.get('expires_in') - 60)
+        self.access_token_expires_time = datetime.datetime.now(
+        ) + datetime.timedelta(seconds=js.get('expires_in') - 60)
         return access_token
 
     def send_image(self,
