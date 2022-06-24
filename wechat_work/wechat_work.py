@@ -2,6 +2,7 @@ from pathlib import Path
 from typing import List
 import requests
 from requests_toolbelt import MultipartEncoder
+import datetime
 
 UPLOAD_URL = 'https://qyapi.weixin.qq.com/cgi-bin/media/upload'
 SEND_URL = 'https://qyapi.weixin.qq.com/cgi-bin/message/send'
@@ -12,6 +13,9 @@ class WechatWork:
     """
     企业微信消息推送
     """
+
+    access_token: str = None
+    access_token_expires_time: datetime.datetime = None
 
     def __init__(self,
                  corpid: str,
@@ -52,7 +56,7 @@ class WechatWork:
         str
             上传的文件的 ID
         """
-        access_token = self.access_token
+        access_token = self.get_access_token()
         params = {
             'access_token': access_token,
             'type': 'file'
@@ -101,7 +105,7 @@ class WechatWork:
             是否发送成功
         """
         userid_str = '|'.join(users)
-        access_token = self.access_token
+        access_token = self.get_access_token()
         data = {
             'touser': userid_str,
             'msgtype': msg_type,
@@ -141,6 +145,9 @@ class WechatWork:
             当无法获取 token 时
 
         """
+        if self.access_token_expires_time and self.access_token and datetime.datetime.now() < self.access_token_expires_time:
+            return self.access_token
+
         params = {
             'corpid': self.corpid,
             'corpsecret': self.corpsecret
@@ -152,6 +159,9 @@ class WechatWork:
         access_token = js.get('access_token')
         if access_token is None:
             raise Exception('获取 token 失败 请确保相关信息填写的正确性')
+        self.access_token = access_token
+        self.access_token_expires_time = datetime.datetime.now(
+        ) + datetime.timedelta(seconds=js.get('expires_in') - 60)
         return access_token
 
     def send_image(self,
